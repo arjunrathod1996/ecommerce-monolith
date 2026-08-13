@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Orders</title>
+</head>
+<body>
+<h1>Orders</h1>
+<p><a th:href="@{/ui}">Home</a></p>
+<div th:if="${success}">
+    <p th:text="${success}" style="color:green"></p>
+</div>
+<div th:if="${error}">
+    <p th:text="${error}" style="color:red"></p>
+</div>
+<h2>Create Order</h2>
+<form th:action="@{/ui/orders}" th:object="${orderRequest}" method="post">
+    <div>
+        <label for="user">User</label>
+        <select id="user" th:field="*{userId}">
+            <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.name}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="product">Product</label>
+        <select id="product" name="items[0].productId">
+            <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name + ' (avail:' + p.quantity + ')'}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="qty">Quantity</label>
+        <input type="number" id="qty" name="items[0].quantity" value="1" min="1" />
+    </div>
+    <div>
+        <button type="submit">Place Order</button>
+    </div>
+</form>
+
+<h2>All Orders</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Created At</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="o : ${orders}">
+        <td th:text="${o.id}">1</td>
+        <td th:text="${o.userId}">user</td>
+        <td th:text="${o.orderStatus}">PENDING</td>
+        <td th:text="${o.totalAmount}">0.0</td>
+        <td th:text="${o.createdAt}">2026-01-01</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
