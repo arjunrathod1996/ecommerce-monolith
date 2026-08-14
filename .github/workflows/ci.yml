@@ -45,3 +45,7 @@ jobs:
           DB_USER: root
           DB_PASS: root
         run: mvn clean verify
+
+      # ADD DOCKER STEP HERE
+      - name: Build Docker Image
+        run: docker build -t ecommerce-monolith:latest .
